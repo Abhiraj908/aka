@@ -1,0 +1,33 @@
+{% extends 'base.html' %} {% block content %} 
+<table class="table table-dark">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th  style="text-align: center">Case.no</th>
+        <th>Court name</th>
+        <th>Name of party 1</th>
+        <th>Name of party 2</th>
+        <th>Date Of Order</th>
+        <th>Judges</th>
+        <th>Held</th>
+
+
+      </tr>
+    </thead>
+    <tbody>
+    {% for i in info %}
+      <tr>
+        <td> {{ loop.index }} </td>
+        <td> {{ i.court_name }} </td>
+        <td> {{ i.party_name1 }} </td>
+        <td> {{ i.party_name2 }} </td>
+        <td> {{ i.order_date }} </td>
+        <td> {{ i.judges }} </td>
+        <td> {{ i.held }} </td>
+      </tr>
+    {% endfor %} 
+      </tbody>
+     
+  </table>
+
+  {% endblock %}
