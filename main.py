@@ -1,68 +1,66 @@
-from flask import Flask, redirect, request, render_template, url_for
+from flask import Flask, redirect, request, render_template, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
-import random
-
+# from sqlalchemy.orm import validates
+# from datetime import datetime
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///myweb-data.db'
+app.config['SECRET_KEY'] = "bgcwugweucbeug"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy()
 db.init_app(app)
 
+COURT_NAMES=["Supreme Court Delhi", "Allahabad High Court", "Bombay High Court", "Calcutta High Court", "Chhattisgarh High Court", "Delhi High Court", "Gauhati High Court", "Gujarat High Court", "Himachal Pradesh High Court", "Jammu & Kashmir and Ladakh High Court", "Jharkhand High Court", "Karnataka High Court", "Kerala High Court", "Madhya Pradesh High Court", "Madras High Court", "Manipur High Court", "Meghalaya High Court", "Orissa High Court", "Patna High Court", "	Punjab and Haryana High Court", "Rajasthan High Court", "Sikkim High Court", "	Telangana High Court", "Tripura High Court", "Uttarakhand High Court"]
+
 class LegalModel(db.Model):
  
-    id = db.Column(db.Integer, primary_key=True)
-    case_num = db.Column(db.Integer, unique=True)
-    court_name = db.Column(db.String(100), nullable=False)
+    case_num = db.Column(db.Integer, primary_key=True)
+    court_name = db.Column(db.String(100), default = COURT_NAMES[0])
     party_name1 = db.Column(db.String(500), nullable=False)
     party_name2 = db.Column(db.String(500), nullable=False)
-    order_date = db.Column(db.DateTime, default = datetime.utcnow())
+    # order_date = db.Column(db.DateTime)
     judges = db.Column(db.String(500), nullable=False)
-    held = db.Column(db.DateTime, default = datetime.utcnow())
+    # held = db.Column(db.DateTime)
 
-with app.app_context():
-    db.create_all()
+# with app.app_context():
+#     db.create_all()
+
 
 @app.route('/')
 def index():
     # print('Helo world')
     return render_template('index.html')
 
-@app.route('/tmp', methods=["GET","POST"])
+@app.route('/save-data', methods=["GET","POST"])
 def temp():
-    # if request.method=="POST":
-    casenum = random.randint(1,1000) 
-    court_name = request.form.get('court_name')
-    nofp = request.form.get('nofp')
-    nofp2 = request.form.get('nofp2')
-    dof = request.form.get('dof')
-    jd = request.form.get('jd')
-    held = request.form.get('held')
-    obj = LegalModel(case_num=casenum,court_name=court_name,party_name1=nofp, 
+    
+    if request.method=="POST":
+        court_name = request.form['court_name']
+        nofp = request.form['nofp']
+        nofp2 = request.form['nofp2']
+        # dof = request.form['dof']
+        jd = request.form['jd']
+        # held = request.form['held']
+        obj = LegalModel(court_name=court_name,party_name1=nofp, 
                     party_name2=nofp2, judges=jd)
-    db.session.add(obj)
-    db.session.commit()
-    # messge to show successful addition of record
-    return render_template('index.html')
-    
-@app.route('/save')
-def save():        
-    return render_template('save_form.html')
 
-# @app.route('/submit',method=['GET','POST'])
-# def add_data():
-#     info = LegalModel.query.all()
+        db.session.add(obj)
+        db.session.commit()
+        flash("Case entry successful!") 
+        return render_template('index.html')
     
+    return render_template('case_form.html', court=COURT_NAMES)
+    
+# @app.route('/save')
+# def save():        
+#     return render_template('save_form.html')
 
-@app.route('/gtdata')
+@app.route('/get-data')
 def get():
     info = LegalModel.query.all()
+    print(f"Info : {info}")
     return render_template('get_data.html', info=info)
-
-# @app.route('/save')
-# def save_data():
-#     return render_template(url_for('table'))
 
 if __name__ == "__main__":
     app.run(debug=True)
