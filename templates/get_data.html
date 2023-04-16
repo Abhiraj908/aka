@@ -5,10 +5,9 @@
         <th>Court name</th>
         <th>Name of party 1</th>
         <th>Name of party 2</th>
-        <!--<th>Date Of Order</th>-->
+        <th>Date Of Order</th>
         <th>Judges</th>
-        <!-- <th>Held</th> -->
-      </tr>
+        <th>Held</th>
     </thead>
     <tbody>
     {% for i in info %}
@@ -17,9 +16,9 @@
         <td> {{ i.court_name }} </td>
         <td> {{ i.party_name1 }} </td>
         <td> {{ i.party_name2 }} </td>
-        <!--<td> {{ i.order_date }} </td>-->
+        <td> {{ i.order_date }} </td>
         <td> {{ i.judges }} </td>
-        <!--<td> {{ i.held }} </td>-->
+        <td> {{ i.held }} </td>
       </tr>
     {% endfor %} 
       </tbody>

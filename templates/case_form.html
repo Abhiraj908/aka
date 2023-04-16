@@ -11,16 +11,7 @@
 
       <tr>
         <th scope="row">Court Name</th>
-        <!-- <td><input name="court_name" class="form-control mr-sm-2" type="input" placeholder="" aria-label="input"></td> -->
         <td>
-          <!-- <div class ="dropdown">
-                <button class="btn btn-danger dropdown-toggle" type="button" name="court_name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Court Name
-                </button>
-                <div class="dropdown-menu scrollable-menu"> 
-                    {% for i in court %}
-                    <a class="dropdown-item" href="#">{{ i }}</a>
-                    <button name = "court_name" value = {{i}} class="dropdown-item text-right " >{{i}}</button> {% endfor %}</div></div> -->
             <div> 
               <select name="court_name" class="btn btn-danger dropdown-toggle" >
                 {% for i in court %}
@@ -38,22 +29,23 @@
         <th scope="row">Name of party 2</th>
         <td><input name="nofp2" class="form-control mr-sm-2" type="input" placeholder="" aria-label="input"></td>
       </tr>
-      ,<!--  <tr>
+      <tr>
           <th scope="row">Date of Order</th>
-          <td><input name="dof" class="form-control mr-sm-2" type="input" placeholder="" aria-label="input"></td>
-
-        </tr> -->
+          <!--<td><input name="dof" class="form-control mr-sm-2" type="input" placeholder="" aria-label="input"></td>
+-->
+          <td> <input type="date" name="dof" class="form-control mr-sm-2" /> </td>
+        </tr>
         <tr>
           <th scope="row">Judges</th>
           <td><input name="jd" class="form-control mr-sm-2" type="input" placeholder="" aria-label="Search"></td>
         </tr>
-      <!-- <tr>
-          <th scope="row">Held</th>
-          <td><input name="held" class="form-control mr-sm-2" type="input" placeholder="" aria-label="Search"></td>
-        </tr> -->
+      <tr>
+          <th scope="row">Held</th>  
+          <!--<td><input name="held" class="form-control mr-sm-2" type="input" placeholder="" aria-label="Search"></td> -->
+          <td> <input type="date" name="held" class="form-control mr-sm-2" /> </td>
+        </tr>
         <tr><th scope="row" style="text-align: right"> 
           <input type="submit" value="Submit" name="btn-submit" class="btn btn-danger">
-          <!--<a href ="/save-data" type="button" class="btn btn-light" name="btn-submit">Submit</button> -->
         </tr>
       </tbody>
     </table>

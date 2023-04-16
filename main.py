@@ -1,7 +1,7 @@
 from flask import Flask, redirect, request, render_template, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 # from sqlalchemy.orm import validates
-# from datetime import datetime
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///myweb-data.db'
@@ -19,9 +19,9 @@ class LegalModel(db.Model):
     court_name = db.Column(db.String(100), default = COURT_NAMES[0])
     party_name1 = db.Column(db.String(500), nullable=False)
     party_name2 = db.Column(db.String(500), nullable=False)
-    # order_date = db.Column(db.DateTime)
+    order_date = db.Column(db.String)
     judges = db.Column(db.String(500), nullable=False)
-    # held = db.Column(db.DateTime)
+    held = db.Column(db.String)
 
 # with app.app_context():
 #     db.create_all()
@@ -39,11 +39,13 @@ def temp():
         court_name = request.form['court_name']
         nofp = request.form['nofp']
         nofp2 = request.form['nofp2']
-        # dof = request.form['dof']
-        jd = request.form['jd']
-        # held = request.form['held']
-        obj = LegalModel(court_name=court_name,party_name1=nofp, 
-                    party_name2=nofp2, judges=jd)
+        order_date = request.form['dof']
+        # order_date = datetime.strptime(request.form['dof'], '%Y-%m-%d')
+        judges = request.form['jd']
+        held = request.form['held']
+        # held = datetime.strptime(request.form['held'], '%Y-%m-%d')
+        obj = LegalModel(order_date= order_date, held = held, court_name=court_name,party_name1=nofp, 
+                    party_name2=nofp2, judges=judges)
 
         db.session.add(obj)
         db.session.commit()
@@ -59,7 +61,7 @@ def temp():
 @app.route('/get-data')
 def get():
     info = LegalModel.query.all()
-    print(f"Info : {info}")
+    # print(f"Info : {info}")
     return render_template('get_data.html', info=info)
 
 if __name__ == "__main__":
